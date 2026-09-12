@@ -6,11 +6,11 @@
   <title>烛光 · 内容管理后台</title>
 </head>
 <body>
-  <!-- Netlify Identity：负责后台登录 / 接受邀请 -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <!-- Netlify Identity：负责后台登录 / 接受邀请（已下载到本地，避免国内 CDN 打不开） -->
+  <script src="./netlify-identity-widget.js"></script>
 
-  <!-- Decap CMS 主程序 -->
-  <script src="https://cdn.jsdelivr.net/npm/@decaporg/decap-cms@^3.0.0/dist/decap.cms.js"></script>
+  <!-- Decap CMS 主程序（已下载到本地自托管，无需访问外部 CDN） -->
+  <script src="./decap-cms.min.js"></script>
 
   <script>
     // 登录成功后进入后台首页
