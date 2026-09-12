@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>烛光</title>
+<!-- Netlify Identity：处理邀请接受 / 设置密码 / 找回密码（本地自托管） -->
+<script src="./admin/netlify-identity-widget.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ar-pl-kaiti-m-gb@5.0.15/index.css">
 <style>
   * {
@@ -541,6 +543,17 @@
 </section>
 
 <script>
+  // Netlify Identity：接受邀请设置密码后，或登录成功后，自动进入后台
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', function (user) {
+      if (!user) {
+        window.netlifyIdentity.on('login', function () {
+          document.location.href = '/admin/';
+        });
+      }
+    });
+  }
+
   function switchPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
