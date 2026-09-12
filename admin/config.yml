@@ -1,0 +1,88 @@
+# ====== 烛光网站 · Decap CMS 后台配置 ======
+# 所有内容都保存在 content/site.json，后台保存即提交到 Git 仓库，网站自动更新
+
+backend:
+  name: git-gateway
+  branch: main
+
+# 允许在本机用 npx decap-server 离线调试后台（部署后自动走线上登录）
+local_backend: true
+
+# 后台上传的图片存放位置
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "site"
+    label: "网站内容"
+    editor:
+      preview: false
+    files:
+      - name: "content"
+        label: "编辑全站内容"
+        file: "content/site.json"
+        description: "在这里修改网站全部内容：个人信息、设计项目、文化思想、经历、荣誉、联络。点击右上角「发布」后网站几分钟内自动更新。"
+        format: "json"
+        fields:
+          # ---------- 关于作者：个人信息 ----------
+          - label: "个人信息"
+            name: "profile"
+            widget: "object"
+            collapsed: false
+            fields:
+              - { label: "姓名", name: "name", widget: "string" }
+              - label: "个人介绍（每段一条，可增删、可拖动排序）"
+                name: "bio"
+                widget: "list"
+                label_singular: "介绍段落"
+                default: []
+
+          # ---------- 设计项目 ----------
+          - label: "设计项目（按展示顺序排列，可增删、可拖动排序）"
+            name: "projects"
+            label_singular: "项目"
+            widget: "list"
+            collapsed: false
+            summary: "{{fields.year}} · {{fields.title}}"
+            fields:
+              - { label: "项目图片（建议 3:4 竖图；不上传则显示灰色占位块）", name: "image", widget: "image", required: false, choose_url: false }
+              - { label: "项目名称", name: "title", widget: "string", required: false }
+              - { label: "年份", name: "year", widget: "string", required: false }
+              - { label: "一句话介绍", name: "description", widget: "string", required: false }
+
+          # ---------- 文化思想 ----------
+          - label: "文化思想（每条一行，可增删、可拖动排序）"
+            name: "thoughts"
+            label_singular: "思想"
+            widget: "list"
+            default: []
+
+          # ---------- 经历 ----------
+          - label: "经历（可增删、可拖动排序）"
+            name: "experiences"
+            label_singular: "经历"
+            widget: "list"
+            collapsed: false
+            fields:
+              - { label: "机构 / 单位", name: "org", widget: "string" }
+              - { label: "时间", name: "period", widget: "string" }
+
+          # ---------- 荣誉 ----------
+          - label: "荣誉（可增删、可拖动排序）"
+            name: "honors"
+            label_singular: "荣誉"
+            widget: "list"
+            collapsed: false
+            fields:
+              - { label: "奖项名称", name: "title", widget: "string" }
+              - { label: "年份", name: "year", widget: "string" }
+
+          # ---------- 联络 ----------
+          - label: "联络方式（可增删、可拖动排序）"
+            name: "contacts"
+            label_singular: "联络"
+            widget: "list"
+            collapsed: false
+            fields:
+              - { label: "名称（如：邮箱）", name: "label", widget: "string" }
+              - { label: "内容", name: "value", widget: "string" }
