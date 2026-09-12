@@ -1,5 +1,6 @@
 # ====== 烛光网站 · Decap CMS 后台配置 ======
-# 所有内容都保存在 content/site.json，后台保存即提交到 Git 仓库，网站自动更新
+# 内容按分类保存在 content/ 下 4 个文件，后台左侧菜单即 4 个独立编辑入口；
+# 保存即提交到 Git 仓库，网站几分钟内自动更新。
 
 backend:
   name: git-gateway
@@ -13,33 +14,39 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "site"
-    label: "网站内容"
+  # ========== ① 个人信息 ==========
+  - name: "profile"
+    label: "个人信息"
     editor:
       preview: false
     files:
-      - name: "content"
-        label: "编辑全站内容"
-        file: "content/site.json"
-        description: "在这里修改网站全部内容：个人信息、设计项目、文化思想、经历、荣誉、联络。点击右上角「发布」后网站几分钟内自动更新。"
+      - name: "profile"
+        label: "姓名与个人介绍"
+        file: "content/profile.json"
+        description: "修改关于作者页的姓名和个人介绍。每段介绍是一条，可增删、可拖动排序。完成后点右上角「发布」。"
         format: "json"
         fields:
-          # ---------- 关于作者：个人信息 ----------
-          - label: "个人信息"
-            name: "profile"
-            widget: "object"
-            collapsed: false
-            fields:
-              - { label: "姓名", name: "name", widget: "string" }
-              - label: "个人介绍（每段一条，可增删、可拖动排序）"
-                name: "bio"
-                widget: "list"
-                label_singular: "介绍段落"
-                default: []
+          - { label: "姓名", name: "name", widget: "string" }
+          - label: "个人介绍（每段一条，可增删、可拖动排序）"
+            name: "bio"
+            widget: "list"
+            label_singular: "介绍段落"
+            default: []
 
-          # ---------- 设计项目 ----------
+  # ========== ② 设计项目 ==========
+  - name: "projects"
+    label: "设计项目"
+    editor:
+      preview: false
+    files:
+      - name: "projects"
+        label: "设计项目列表"
+        file: "content/projects.json"
+        description: "按展示顺序管理设计项目，可增删、可拖动排序。项目图片建议 3:4 竖图；不上传图片则显示灰色占位块。完成后点右上角「发布」。"
+        format: "json"
+        fields:
           - label: "设计项目（按展示顺序排列，可增删、可拖动排序）"
-            name: "projects"
+            name: "items"
             label_singular: "项目"
             widget: "list"
             collapsed: false
@@ -50,14 +57,36 @@ collections:
               - { label: "年份", name: "year", widget: "string", required: false }
               - { label: "一句话介绍", name: "description", widget: "string", required: false }
 
-          # ---------- 文化思想 ----------
+  # ========== ③ 文化思想 ==========
+  - name: "thoughts"
+    label: "文化思想"
+    editor:
+      preview: false
+    files:
+      - name: "thoughts"
+        label: "文化思想条目"
+        file: "content/thoughts.json"
+        description: "管理文化思想页的文字条目，每条一行，可增删、可拖动排序。完成后点右上角「发布」。"
+        format: "json"
+        fields:
           - label: "文化思想（每条一行，可增删、可拖动排序）"
-            name: "thoughts"
+            name: "items"
             label_singular: "思想"
             widget: "list"
             default: []
 
-          # ---------- 经历 ----------
+  # ========== ④ 经历 / 荣誉 / 联络 ==========
+  - name: "about"
+    label: "经历 / 荣誉 / 联络"
+    editor:
+      preview: false
+    files:
+      - name: "about"
+        label: "经历、荣誉与联络"
+        file: "content/about.json"
+        description: "管理关于作者页的三个信息区块：经历、荣誉、联络方式，各自可增删、可拖动排序。完成后点右上角「发布」。"
+        format: "json"
+        fields:
           - label: "经历（可增删、可拖动排序）"
             name: "experiences"
             label_singular: "经历"
@@ -67,7 +96,6 @@ collections:
               - { label: "机构 / 单位", name: "org", widget: "string" }
               - { label: "时间", name: "period", widget: "string" }
 
-          # ---------- 荣誉 ----------
           - label: "荣誉（可增删、可拖动排序）"
             name: "honors"
             label_singular: "荣誉"
@@ -77,7 +105,6 @@ collections:
               - { label: "奖项名称", name: "title", widget: "string" }
               - { label: "年份", name: "year", widget: "string" }
 
-          # ---------- 联络 ----------
           - label: "联络方式（可增删、可拖动排序）"
             name: "contacts"
             label_singular: "联络"
