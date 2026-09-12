@@ -1,0 +1,20 @@
+{
+  "experiences": [
+    { "org": "中央美术学院", "period": "2010 — 2014" },
+    { "org": "京都艺术大学", "period": "2015 — 2016" },
+    { "org": "原研哉设计研究所", "period": "2017 — 2019" },
+    { "org": "知白设计工作室", "period": "2020 — 至今" }
+  ],
+  "honors": [
+    { "title": "TOKYO TDC 优秀奖", "year": "2023" },
+    { "title": "GDC 金奖", "year": "2022" },
+    { "title": "Design Asia 年度新锐", "year": "2021" },
+    { "title": "华语设计百强", "year": "2020" }
+  ],
+  "contacts": [
+    { "label": "邮箱", "value": "hello@linzhibai.design" },
+    { "label": "微信", "value": "linzhibai_studio" },
+    { "label": "微博", "value": "@林知白" },
+    { "label": "地址", "value": "杭州 · 西湖区" }
+  ]
+}

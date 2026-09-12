@@ -561,9 +561,9 @@
   }
 
   /* =========================================================
-     内容渲染：所有文字 / 项目 / 图片均来自 content/site.json
-     （部署后可在 你的域名/admin 后台可视化编辑该文件）
-     下面这份 FALLBACK_DATA 仅在读取不到文件时兜底，不用手动改
+     内容渲染：文字 / 项目 / 图片来自 content/ 下 4 个分类文件
+     （profile.json / projects.json / thoughts.json / about.json）
+     部署后可在 你的域名/admin 后台分类编辑；下面 FALLBACK_DATA 仅在读取不到时兜底
      ========================================================= */
   var FALLBACK_DATA = {
     profile: {
@@ -674,17 +674,40 @@
     renderAbout(data);
   }
 
-  function loadContent() {
-    fetch('content/site.json', { cache: 'no-store' })
+  // 内容按分类存为 4 个 JSON，后台左侧菜单对应 4 个编辑入口；
+  // 任一文件读取失败时，该分类自动使用内置兜底内容
+  function loadJson(path) {
+    return fetch(path, { cache: 'no-store' })
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
       })
-      .then(renderAll)
       .catch(function (err) {
-        console.warn('未能读取 content/site.json，使用内置默认内容。', err);
-        renderAll(FALLBACK_DATA);
+        console.warn('未能读取 ' + path + '，该部分使用内置默认内容。', err);
+        return null;
       });
+  }
+
+  function loadContent() {
+    Promise.all([
+      loadJson('content/profile.json'),
+      loadJson('content/projects.json'),
+      loadJson('content/thoughts.json'),
+      loadJson('content/about.json')
+    ]).then(function (parts) {
+      var profile = parts[0];
+      var projectsFile = parts[1];
+      var thoughtsFile = parts[2];
+      var about = parts[3] || {};
+      renderAll({
+        profile: profile || FALLBACK_DATA.profile,
+        projects: (projectsFile && projectsFile.items) || FALLBACK_DATA.projects,
+        thoughts: (thoughtsFile && thoughtsFile.items) || FALLBACK_DATA.thoughts,
+        experiences: about.experiences || FALLBACK_DATA.experiences,
+        honors: about.honors || FALLBACK_DATA.honors,
+        contacts: about.contacts || FALLBACK_DATA.contacts
+      });
+    });
   }
 
   if (document.readyState === 'loading') {
