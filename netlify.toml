@@ -2,4 +2,8 @@
 [build]
   publish = "."
 
-# /admin/ 目录由 Netlify 自动提供 admin/index.html
+# 旧地址 /web.html 永久跳转到首页
+[[redirects]]
+  from = "/web.html"
+  to = "/"
+  status = 301

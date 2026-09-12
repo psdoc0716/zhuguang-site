@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>烛光</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ar-pl-kaiti-m-gb@5.0.15/index.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    background: #ffffff;
+    color: #000000;
+    font-family: 'AR PL KaitiM GB', 'KaiTi', serif;
+    font-size: 17px;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #000;
+    color: #fff;
+  }
+
+  /* ===== 页面容器 ===== */
+  .page {
+    display: none;
+    width: 100vw;
+    min-height: 100vh;
+    animation: fadeIn 0.8s ease;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ===== 首页 ===== */
+  #home.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  #home.active:hover .home-logo svg {
+    opacity: 0.7;
+  }
+
+  .home-logo svg {
+    width: 140px;
+    height: auto;
+    transition: opacity 0.4s ease;
+  }
+
+  /* ===== 目录页 ===== */
+  #toc.active {
+    display: block;
+  }
+
+  .toc-grid {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .toc-top {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    letter-spacing: 48px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  .toc-top:hover {
+    opacity: 0.5;
+  }
+
+  .toc-middle {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8%;
+  }
+
+  .toc-logo {
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+
+  .toc-logo:hover {
+    opacity: 0.5;
+  }
+
+  .toc-logo svg {
+    width: 60px;
+    height: 25.27px;
+  }
+
+  .toc-thoughts {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    letter-spacing: 48px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  .toc-thoughts:hover {
+    opacity: 0.5;
+  }
+
+  .toc-back {
+    font-size: 22px;
+    letter-spacing: 24px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  .toc-back:hover {
+    opacity: 0.5;
+  }
+
+  .toc-bottom {
+    position: absolute;
+    bottom: 22%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    letter-spacing: 48px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  .toc-bottom:hover {
+    opacity: 0.5;
+  }
+
+  /* ===== 内页统一头部（设计项目 / 文化思想） ===== */
+  .sub-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 96px 7% 56px;
+  }
+
+  .sub-logo {
+    justify-self: start;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    line-height: 0;
+    height: 26px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sub-logo:hover {
+    opacity: 0.5;
+  }
+
+  .sub-logo svg {
+    width: 62px;
+    height: 26px;
+    display: block;
+  }
+
+  .sub-header h1 {
+    justify-self: center;
+    font-size: 22px;
+    line-height: 26px;
+    height: 26px;
+    font-weight: normal;
+    letter-spacing: 24px;
+    padding-left: 24px;
+    white-space: nowrap;
+  }
+
+  .sub-back {
+    justify-self: end;
+    font-size: 22px;
+    line-height: 26px;
+    height: 26px;
+    letter-spacing: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+  }
+
+  .sub-back:hover {
+    opacity: 0.5;
+  }
+
+  /* ===== 设计项目页 ===== */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+    padding: 0 7% 80px;
+  }
+
+  .project-card {
+    aspect-ratio: 3 / 4;
+    background: #c4c4c4;
+    overflow: hidden;
+  }
+
+  .project-card img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* ===== 文化思想页 ===== */
+  .thought-list {
+    padding: 56px 14.6% 100px;
+  }
+
+  .thought-line {
+    display: block;
+    font-size: clamp(20px, 1.9vw, 36px);
+    letter-spacing: 0.18em;
+    line-height: 1.7;
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: #000;
+    margin-bottom: clamp(64px, 11vh, 132px);
+  }
+
+  /* ===== 关于作者页 ===== */
+  #about {
+    padding: 0 7% 100px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 80px;
+    margin: 56px auto 0;
+    max-width: 716px;
+  }
+
+  .about-left h2 {
+    font-size: 40px;
+    letter-spacing: 12px;
+    padding-left: 12px;
+    margin-bottom: 36px;
+    font-weight: normal;
+    text-align: center;
+  }
+
+  .about-left .bio {
+    font-size: 17px;
+    line-height: 2.2;
+    letter-spacing: 1px;
+    text-align: left;
+  }
+
+  .about-left .bio p {
+    margin-bottom: 20px;
+  }
+
+  .about-right {
+    padding-top: 10px;
+  }
+
+  .about-section {
+    margin-bottom: 50px;
+  }
+
+  .about-section h4 {
+    font-size: 16px;
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+    font-weight: normal;
+  }
+
+  .about-section ul {
+    list-style: none;
+  }
+
+  .about-section li {
+    padding: 10px 0;
+    font-size: 15px;
+    letter-spacing: 1px;
+    opacity: 0.85;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .about-section li span:last-child {
+    opacity: 0.5;
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .contact-list li {
+    padding: 10px 0;
+    font-size: 15px;
+    letter-spacing: 2px;
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px dashed rgba(0,0,0,0.15);
+  }
+
+  .contact-list li .label {
+    min-width: 80px;
+    opacity: 0.5;
+    font-size: 13px;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 768px) {
+    .home-logo svg {
+      width: 100px;
+    }
+
+    /* 目录页：改为垂直居中布局 */
+    .toc-grid {
+      height: auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 60px 24px;
+    }
+
+    .toc-top,
+    .toc-thoughts,
+    .toc-bottom {
+      position: static;
+      transform: none;
+      left: auto;
+      top: auto;
+      bottom: auto;
+      font-size: 20px;
+      letter-spacing: 24px;
+      margin: 28px 0;
+    }
+
+    .toc-middle {
+      position: static;
+      transform: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      margin: 28px 0;
+    }
+
+    .toc-logo svg {
+      width: 70px;
+    }
+
+    .toc-back {
+      font-size: 20px;
+      letter-spacing: 16px;
+    }
+
+    .sub-header {
+      padding: 56px 24px 40px;
+    }
+
+    .sub-logo,
+    .sub-header h1,
+    .sub-back {
+      height: 22px;
+      line-height: 22px;
+    }
+
+    .sub-logo svg {
+      width: 50px;
+      height: 21px;
+    }
+
+    .sub-header h1 {
+      font-size: 18px;
+      letter-spacing: 14px;
+      padding-left: 14px;
+    }
+
+    .sub-back {
+      font-size: 18px;
+      letter-spacing: 10px;
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 0 24px 60px;
+    }
+
+    .thought-list {
+      padding: 36px 24px 80px;
+    }
+
+    .thought-line {
+      font-size: 20px;
+      letter-spacing: 0.1em;
+      margin-bottom: 56px;
+      text-underline-offset: 6px;
+    }
+
+    #about {
+      padding: 0 24px 80px;
+    }
+
+    .about-grid {
+      gap: 56px;
+      margin-top: 36px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .toc-top,
+    .toc-thoughts,
+    .toc-bottom {
+      font-size: 18px;
+      letter-spacing: 16px;
+      margin: 22px 0;
+    }
+
+    .toc-logo svg {
+      width: 60px;
+    }
+
+    .toc-back {
+      font-size: 18px;
+      letter-spacing: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 首页 ===== -->
+<section class="page active" id="home" onclick="switchPage('toc')">
+  <div class="home-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.3958 119.3368">
+      <path d="m261.9263,66.2097c4.0517,4.0519,6.5514,9.643,6.5514,15.826,0,12.3661-10.0114,22.3774-22.3775,22.3774-12.3532,0-22.3643-10.0113-22.3643-22.3774v-22.3692h29.8349v-14.9164h-44.7493v-8.2021C225.8434,33.0903,238.6506,18.0448,238.6506.0008h-14.9183c0,9.7327-6.2259,17.9968-14.9107,21.0744V.0008h-14.9163v21.0782c-8.6838-3.0748-14.9147-11.3416-14.9147-21.0782h-14.9183c0,18.0485,12.8137,33.0967,29.833,36.5495v8.1998h-44.7495v14.9164h29.8351l-.0098,22.3692c0,12.353-10.0114,22.3774-22.3775,22.3774-12.3262,0-22.3171-9.9819-22.3604-22.2979v-.0741h-.0037c0-.0018-.0002-.0036-.0002-.0054h-14.9184c0,.0019.0003.0038.0003.0057-.0003,9.7327-6.226,17.9964-14.9107,21.0742v-28.5391h7.4513c12.366,0,22.3775-10.0113,22.3775-22.3643,0-12.3661-10.0114-22.3775-22.3775-22.3775h-7.4513V.0008h-14.9165v29.834h-7.4557c-12.3662,0-22.3773,10.0113-22.3773,22.3775,0,12.353,10.0111,22.3643,22.3773,22.3643h7.4557v28.5428c-8.6837-3.0748-14.9145-11.3415-14.9145-21.0782h-.0013v-.0037h-14.9184c0,12.3661-10.0111,22.3775-22.3775,22.3775-12.3528,0-22.3643-10.0114-22.3643-22.3775,0-12.3096,9.9427-22.3008,22.2358-22.371h7.5907v-23.1185c17.0241-3.4559,29.8336-18.5024,29.8336-36.548h-14.9184c0,9.7344-6.228,17.9995-14.9152,21.076V.0008h-14.9163v21.0758C21.1469,18.0005,14.9181,9.735,14.9181,0H0c0,18.047,12.8112,33.0941,29.8283,36.5487v8.9532C12.8112,48.9562,0,64.002,0,82.0375c0,20.6014,16.6942,37.2957,37.2824,37.2957,12.2019,0,23.0317-5.8575,29.8355-14.9133,6.8023,9.0579,17.6301,14.917,29.8259,14.917,8.3998,0,16.149-2.7769,22.3831-7.4609v7.4563h14.9163v-7.452c6.23,4.6783,13.9716,7.4512,22.3604,7.4512,13.0238,0,24.4955-6.6698,31.1521-16.7863,3.894-5.8806,6.1437-12.9319,6.1437-20.5094v-22.3692h14.9183v22.3692c0,7.5775,2.2495,14.6289,6.1437,20.5094,6.6566,10.1165,18.1281,16.7863,31.139,16.7863,20.6014,0,37.2956-16.6943,37.2956-37.2957,0-10.2876-4.1702-19.6148-10.9189-26.3636l-10.5505,10.5376Zm-157.5158-21.4566h7.4513c4.1177,0,7.4591,3.3415,7.4591,7.4592s-3.3414,7.4591-7.4591,7.4591h-7.4513v-14.9183Zm-14.9165,14.9183h-7.4557c-4.1308,0-7.4592-3.3414-7.4592-7.4591s3.3284-7.4592,7.4592-7.4592h7.4557v14.9183Z" style="fill:#040000; stroke-width:0px;"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===== 目录页 ===== -->
+<section class="page" id="toc">
+  <div class="toc-grid">
+    <div class="toc-top" onclick="switchPage('projects')">设 计 项 目</div>
+    <div class="toc-middle">
+      <div class="toc-logo" onclick="switchPage('home')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.3958 119.3368">
+          <path d="m261.9263,66.2097c4.0517,4.0519,6.5514,9.643,6.5514,15.826,0,12.3661-10.0114,22.3774-22.3775,22.3774-12.3532,0-22.3643-10.0113-22.3643-22.3774v-22.3692h29.8349v-14.9164h-44.7493v-8.2021C225.8434,33.0903,238.6506,18.0448,238.6506.0008h-14.9183c0,9.7327-6.2259,17.9968-14.9107,21.0744V.0008h-14.9163v21.0782c-8.6838-3.0748-14.9147-11.3416-14.9147-21.0782h-14.9183c0,18.0485,12.8137,33.0967,29.833,36.5495v8.1998h-44.7495v14.9164h29.8351l-.0098,22.3692c0,12.353-10.0114,22.3774-22.3775,22.3774-12.3262,0-22.3171-9.9819-22.3604-22.2979v-.0741h-.0037c0-.0018-.0002-.0036-.0002-.0054h-14.9184c0,.0019.0003.0038.0003.0057-.0003,9.7327-6.226,17.9964-14.9107,21.0742v-28.5391h7.4513c12.366,0,22.3775-10.0113,22.3775-22.3643,0-12.3661-10.0114-22.3775-22.3775-22.3775h-7.4513V.0008h-14.9165v29.834h-7.4557c-12.3662,0-22.3773,10.0113-22.3773,22.3775,0,12.353,10.0111,22.3643,22.3773,22.3643h7.4557v28.5428c-8.6837-3.0748-14.9145-11.3415-14.9145-21.0782h-.0013v-.0037h-14.9184c0,12.3661-10.0111,22.3775-22.3775,22.3775-12.3528,0-22.3643-10.0114-22.3643-22.3775,0-12.3096,9.9427-22.3008,22.2358-22.371h7.5907v-23.1185c17.0241-3.4559,29.8336-18.5024,29.8336-36.548h-14.9184c0,9.7344-6.228,17.9995-14.9152,21.076V.0008h-14.9163v21.0758C21.1469,18.0005,14.9181,9.735,14.9181,0H0c0,18.047,12.8112,33.0941,29.8283,36.5487v8.9532C12.8112,48.9562,0,64.002,0,82.0375c0,20.6014,16.6942,37.2957,37.2824,37.2957,12.2019,0,23.0317-5.8575,29.8355-14.9133,6.8023,9.0579,17.6301,14.917,29.8259,14.917,8.3998,0,16.149-2.7769,22.3831-7.4609v7.4563h14.9163v-7.452c6.23,4.6783,13.9716,7.4512,22.3604,7.4512,13.0238,0,24.4955-6.6698,31.1521-16.7863,3.894-5.8806,6.1437-12.9319,6.1437-20.5094v-22.3692h14.9183v22.3692c0,7.5775,2.2495,14.6289,6.1437,20.5094,6.6566,10.1165,18.1281,16.7863,31.139,16.7863,20.6014,0,37.2956-16.6943,37.2956-37.2957,0-10.2876-4.1702-19.6148-10.9189-26.3636l-10.5505,10.5376Zm-157.5158-21.4566h7.4513c4.1177,0,7.4591,3.3415,7.4591,7.4592s-3.3414,7.4591-7.4591,7.4591h-7.4513v-14.9183Zm-14.9165,14.9183h-7.4557c-4.1308,0-7.4592-3.3414-7.4592-7.4591s3.3284-7.4592,7.4592-7.4592h7.4557v14.9183Z" style="fill:#040000; stroke-width:0px;"/>
+        </svg>
+      </div>
+      <div class="toc-back" onclick="switchPage('home')">返 回</div>
+    </div>
+    <div class="toc-thoughts" onclick="switchPage('thoughts')">文 化 思 想</div>
+    <div class="toc-bottom" onclick="switchPage('about')">关 于 作 者</div>
+  </div>
+</section>
+
+<!-- ===== 设计项目页 ===== -->
+<section class="page" id="projects">
+  <header class="sub-header">
+    <div class="sub-logo" onclick="switchPage('home')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.3958 119.3368">
+        <path d="m261.9263,66.2097c4.0517,4.0519,6.5514,9.643,6.5514,15.826,0,12.3661-10.0114,22.3774-22.3775,22.3774-12.3532,0-22.3643-10.0113-22.3643-22.3774v-22.3692h29.8349v-14.9164h-44.7493v-8.2021C225.8434,33.0903,238.6506,18.0448,238.6506.0008h-14.9183c0,9.7327-6.2259,17.9968-14.9107,21.0744V.0008h-14.9163v21.0782c-8.6838-3.0748-14.9147-11.3416-14.9147-21.0782h-14.9183c0,18.0485,12.8137,33.0967,29.833,36.5495v8.1998h-44.7495v14.9164h29.8351l-.0098,22.3692c0,12.353-10.0114,22.3774-22.3775,22.3774-12.3262,0-22.3171-9.9819-22.3604-22.2979v-.0741h-.0037c0-.0018-.0002-.0036-.0002-.0054h-14.9184c0,.0019.0003.0038.0003.0057-.0003,9.7327-6.226,17.9964-14.9107,21.0742v-28.5391h7.4513c12.366,0,22.3775-10.0113,22.3775-22.3643,0-12.3661-10.0114-22.3775-22.3775-22.3775h-7.4513V.0008h-14.9165v29.834h-7.4557c-12.3662,0-22.3773,10.0113-22.3773,22.3775,0,12.353,10.0111,22.3643,22.3773,22.3643h7.4557v28.5428c-8.6837-3.0748-14.9145-11.3415-14.9145-21.0782h-.0013v-.0037h-14.9184c0,12.3661-10.0111,22.3775-22.3775,22.3775-12.3528,0-22.3643-10.0114-22.3643-22.3775,0-12.3096,9.9427-22.3008,22.2358-22.371h7.5907v-23.1185c17.0241-3.4559,29.8336-18.5024,29.8336-36.548h-14.9184c0,9.7344-6.228,17.9995-14.9152,21.076V.0008h-14.9163v21.0758C21.1469,18.0005,14.9181,9.735,14.9181,0H0c0,18.047,12.8112,33.0941,29.8283,36.5487v8.9532C12.8112,48.9562,0,64.002,0,82.0375c0,20.6014,16.6942,37.2957,37.2824,37.2957,12.2019,0,23.0317-5.8575,29.8355-14.9133,6.8023,9.0579,17.6301,14.917,29.8259,14.917,8.3998,0,16.149-2.7769,22.3831-7.4609v7.4563h14.9163v-7.452c6.23,4.6783,13.9716,7.4512,22.3604,7.4512,13.0238,0,24.4955-6.6698,31.1521-16.7863,3.894-5.8806,6.1437-12.9319,6.1437-20.5094v-22.3692h14.9183v22.3692c0,7.5775,2.2495,14.6289,6.1437,20.5094,6.6566,10.1165,18.1281,16.7863,31.139,16.7863,20.6014,0,37.2956-16.6943,37.2956-37.2957,0-10.2876-4.1702-19.6148-10.9189-26.3636l-10.5505,10.5376Zm-157.5158-21.4566h7.4513c4.1177,0,7.4591,3.3415,7.4591,7.4592s-3.3414,7.4591-7.4591,7.4591h-7.4513v-14.9183Zm-14.9165,14.9183h-7.4557c-4.1308,0-7.4592-3.3414-7.4592-7.4591s3.3284-7.4592,7.4592-7.4592h7.4557v14.9183Z" style="fill:#040000; stroke-width:0px;"/>
+      </svg>
+    </div>
+    <h1>设 计 项 目</h1>
+    <div class="sub-back" onclick="switchPage('toc')">返 回</div>
+  </header>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- ===== 文化思想页 ===== -->
+<section class="page" id="thoughts">
+  <header class="sub-header">
+    <div class="sub-logo" onclick="switchPage('home')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.3958 119.3368">
+        <path d="m261.9263,66.2097c4.0517,4.0519,6.5514,9.643,6.5514,15.826,0,12.3661-10.0114,22.3774-22.3775,22.3774-12.3532,0-22.3643-10.0113-22.3643-22.3774v-22.3692h29.8349v-14.9164h-44.7493v-8.2021C225.8434,33.0903,238.6506,18.0448,238.6506.0008h-14.9183c0,9.7327-6.2259,17.9968-14.9107,21.0744V.0008h-14.9163v21.0782c-8.6838-3.0748-14.9147-11.3416-14.9147-21.0782h-14.9183c0,18.0485,12.8137,33.0967,29.833,36.5495v8.1998h-44.7495v14.9164h29.8351l-.0098,22.3692c0,12.353-10.0114,22.3774-22.3775,22.3774-12.3262,0-22.3171-9.9819-22.3604-22.2979v-.0741h-.0037c0-.0018-.0002-.0036-.0002-.0054h-14.9184c0,.0019.0003.0038.0003.0057-.0003,9.7327-6.226,17.9964-14.9107,21.0742v-28.5391h7.4513c12.366,0,22.3775-10.0113,22.3775-22.3643,0-12.3661-10.0114-22.3775-22.3775-22.3775h-7.4513V.0008h-14.9165v29.834h-7.4557c-12.3662,0-22.3773,10.0113-22.3773,22.3775,0,12.353,10.0111,22.3643,22.3773,22.3643h7.4557v28.5428c-8.6837-3.0748-14.9145-11.3415-14.9145-21.0782h-.0013v-.0037h-14.9184c0,12.3661-10.0111,22.3775-22.3775,22.3775-12.3528,0-22.3643-10.0114-22.3643-22.3775,0-12.3096,9.9427-22.3008,22.2358-22.371h7.5907v-23.1185c17.0241-3.4559,29.8336-18.5024,29.8336-36.548h-14.9184c0,9.7344-6.228,17.9995-14.9152,21.076V.0008h-14.9163v21.0758C21.1469,18.0005,14.9181,9.735,14.9181,0H0c0,18.047,12.8112,33.0941,29.8283,36.5487v8.9532C12.8112,48.9562,0,64.002,0,82.0375c0,20.6014,16.6942,37.2957,37.2824,37.2957,12.2019,0,23.0317-5.8575,29.8355-14.9133,6.8023,9.0579,17.6301,14.917,29.8259,14.917,8.3998,0,16.149-2.7769,22.3831-7.4609v7.4563h14.9163v-7.452c6.23,4.6783,13.9716,7.4512,22.3604,7.4512,13.0238,0,24.4955-6.6698,31.1521-16.7863,3.894-5.8806,6.1437-12.9319,6.1437-20.5094v-22.3692h14.9183v22.3692c0,7.5775,2.2495,14.6289,6.1437,20.5094,6.6566,10.1165,18.1281,16.7863,31.139,16.7863,20.6014,0,37.2956-16.6943,37.2956-37.2957,0-10.2876-4.1702-19.6148-10.9189-26.3636l-10.5505,10.5376Zm-157.5158-21.4566h7.4513c4.1177,0,7.4591,3.3415,7.4591,7.4592s-3.3414,7.4591-7.4591,7.4591h-7.4513v-14.9183Zm-14.9165,14.9183h-7.4557c-4.1308,0-7.4592-3.3414-7.4592-7.4591s3.3284-7.4592,7.4592-7.4592h7.4557v14.9183Z" style="fill:#040000; stroke-width:0px;"/>
+      </svg>
+    </div>
+    <h1>文 化 思 想</h1>
+    <div class="sub-back" onclick="switchPage('toc')">返 回</div>
+  </header>
+  <div class="thought-list" id="thoughtList"></div>
+</section>
+
+<!-- ===== 关于作者页 ===== -->
+<section class="page" id="about">
+  <header class="sub-header">
+    <div class="sub-logo" onclick="switchPage('home')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.3958 119.3368">
+        <path d="m261.9263,66.2097c4.0517,4.0519,6.5514,9.643,6.5514,15.826,0,12.3661-10.0114,22.3774-22.3775,22.3774-12.3532,0-22.3643-10.0113-22.3643-22.3774v-22.3692h29.8349v-14.9164h-44.7493v-8.2021C225.8434,33.0903,238.6506,18.0448,238.6506.0008h-14.9183c0,9.7327-6.2259,17.9968-14.9107,21.0744V.0008h-14.9163v21.0782c-8.6838-3.0748-14.9147-11.3416-14.9147-21.0782h-14.9183c0,18.0485,12.8137,33.0967,29.833,36.5495v8.1998h-44.7495v14.9164h29.8351l-.0098,22.3692c0,12.353-10.0114,22.3774-22.3775,22.3774-12.3262,0-22.3171-9.9819-22.3604-22.2979v-.0741h-.0037c0-.0018-.0002-.0036-.0002-.0054h-14.9184c0,.0019.0003.0038.0003.0057-.0003,9.7327-6.226,17.9964-14.9107,21.0742v-28.5391h7.4513c12.366,0,22.3775-10.0113,22.3775-22.3643,0-12.3661-10.0114-22.3775-22.3775-22.3775h-7.4513V.0008h-14.9165v29.834h-7.4557c-12.3662,0-22.3773,10.0113-22.3773,22.3775,0,12.353,10.0111,22.3643,22.3773,22.3643h7.4557v28.5428c-8.6837-3.0748-14.9145-11.3415-14.9145-21.0782h-.0013v-.0037h-14.9184c0,12.3661-10.0111,22.3775-22.3775,22.3775-12.3528,0-22.3643-10.0114-22.3643-22.3775,0-12.3096,9.9427-22.3008,22.2358-22.371h7.5907v-23.1185c17.0241-3.4559,29.8336-18.5024,29.8336-36.548h-14.9184c0,9.7344-6.228,17.9995-14.9152,21.076V.0008h-14.9163v21.0758C21.1469,18.0005,14.9181,9.735,14.9181,0H0c0,18.047,12.8112,33.0941,29.8283,36.5487v8.9532C12.8112,48.9562,0,64.002,0,82.0375c0,20.6014,16.6942,37.2957,37.2824,37.2957,12.2019,0,23.0317-5.8575,29.8355-14.9133,6.8023,9.0579,17.6301,14.917,29.8259,14.917,8.3998,0,16.149-2.7769,22.3831-7.4609v7.4563h14.9163v-7.452c6.23,4.6783,13.9716,7.4512,22.3604,7.4512,13.0238,0,24.4955-6.6698,31.1521-16.7863,3.894-5.8806,6.1437-12.9319,6.1437-20.5094v-22.3692h14.9183v22.3692c0,7.5775,2.2495,14.6289,6.1437,20.5094,6.6566,10.1165,18.1281,16.7863,31.139,16.7863,20.6014,0,37.2956-16.6943,37.2956-37.2957,0-10.2876-4.1702-19.6148-10.9189-26.3636l-10.5505,10.5376Zm-157.5158-21.4566h7.4513c4.1177,0,7.4591,3.3415,7.4591,7.4592s-3.3414,7.4591-7.4591,7.4591h-7.4513v-14.9183Zm-14.9165,14.9183h-7.4557c-4.1308,0-7.4592-3.3414-7.4592-7.4591s3.3284-7.4592,7.4592-7.4592h7.4557v14.9183Z" style="fill:#040000; stroke-width:0px;"/>
+      </svg>
+    </div>
+    <h1>关 于 作 者</h1>
+    <div class="sub-back" onclick="switchPage('toc')">返 回</div>
+  </header>
+  <div class="about-grid">
+    <div class="about-left">
+      <h2 id="profileName"></h2>
+      <div class="bio" id="profileBio"></div>
+    </div>
+    <div class="about-right" id="aboutRight"></div>
+  </div>
+</section>
+
+<script>
+  function switchPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* =========================================================
+     内容渲染：所有文字 / 项目 / 图片均来自 content/site.json
+     （部署后可在 你的域名/admin 后台可视化编辑该文件）
+     下面这份 FALLBACK_DATA 仅在读取不到文件时兜底，不用手动改
+     ========================================================= */
+  var FALLBACK_DATA = {
+    profile: {
+      name: '林 知 白',
+      bio: [
+        '设计师，写作者。毕业于中央美术学院视觉传达专业，后赴京都艺术大学研修传统工艺。',
+        '十余年来游走于字体、书籍、品牌与装置之间，始终相信设计是文化的翻译者，而非装饰者。',
+        '工作之外，好茶、好字、好山水。闲时临帖，忙时思考。此站即是我与外界对话的一扇小窗。',
+        '现居杭州，独立执业。'
+      ]
+    },
+    projects: [
+      {}, {}, {}, {}, {}, {}, {}, {}
+    ],
+    thoughts: [
+      '设计暴论：有个性、有风格的设计必须独裁，不妥协、不投票。',
+      '设计暴论：有个性、有风格的设计必须独裁，不妥协、不投票。',
+      '设计暴论：有个性、有风格的设计必须独裁，不妥协、不投票。',
+      '设计暴论：有个性、有风格的设计必须独裁，不妥协、不投票。',
+      '设计暴论：有个性、有风格的设计必须独裁，不妥协、不投票。',
+      '设计暴论：有个性、有风格的设计必须独裁，不妥协、不投票。'
+    ],
+    experiences: [
+      { org: '中央美术学院', period: '2010 — 2014' },
+      { org: '京都艺术大学', period: '2015 — 2016' },
+      { org: '原研哉设计研究所', period: '2017 — 2019' },
+      { org: '知白设计工作室', period: '2020 — 至今' }
+    ],
+    honors: [
+      { title: 'TOKYO TDC 优秀奖', year: '2023' },
+      { title: 'GDC 金奖', year: '2022' },
+      { title: 'Design Asia 年度新锐', year: '2021' },
+      { title: '华语设计百强', year: '2020' }
+    ],
+    contacts: [
+      { label: '邮箱', value: 'hello@linzhibai.design' },
+      { label: '微信', value: 'linzhibai_studio' },
+      { label: '微博', value: '@林知白' },
+      { label: '地址', value: '杭州 · 西湖区' }
+    ]
+  };
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function renderProjects(projects) {
+    var el = document.getElementById('projectsGrid');
+    if (!el) return;
+    el.innerHTML = (projects || []).map(function (p) {
+      p = p || {};
+      var img = p.image
+        ? '<img src="' + escapeHtml(p.image) + '" alt="' + escapeHtml(p.title || '') + '" loading="lazy">'
+        : '';
+      return '<div class="project-card">' + img + '</div>';
+    }).join('');
+  }
+
+  function renderThoughts(thoughts) {
+    var el = document.getElementById('thoughtList');
+    if (!el) return;
+    el.innerHTML = (thoughts || []).map(function (t) {
+      return '<p class="thought-line">' + escapeHtml(t) + '</p>';
+    }).join('');
+  }
+
+  function aboutSection(title, listHtml, extraClass) {
+    return '<div class="about-section"><h4>' + title + '</h4>'
+      + '<ul' + (extraClass ? ' class="' + extraClass + '"' : '') + '>'
+      + listHtml + '</ul></div>';
+  }
+
+  function renderAbout(data) {
+    var profile = data.profile || {};
+    var nameEl = document.getElementById('profileName');
+    var bioEl = document.getElementById('profileBio');
+    var rightEl = document.getElementById('aboutRight');
+    if (!nameEl || !bioEl || !rightEl) return;
+
+    nameEl.textContent = profile.name || '';
+    bioEl.innerHTML = (profile.bio || []).map(function (t) {
+      return '<p>' + escapeHtml(t) + '</p>';
+    }).join('');
+
+    var html = '';
+
+    html += aboutSection('经 历', (data.experiences || []).map(function (i) {
+      return '<li><span>' + escapeHtml(i.org) + '</span><span>' + escapeHtml(i.period) + '</span></li>';
+    }).join(''));
+
+    html += aboutSection('荣 誉', (data.honors || []).map(function (i) {
+      return '<li><span>' + escapeHtml(i.title) + '</span><span>' + escapeHtml(i.year) + '</span></li>';
+    }).join(''));
+
+    html += aboutSection('联 络', (data.contacts || []).map(function (i) {
+      return '<li><span class="label">' + escapeHtml(i.label) + '</span><span>'
+        + escapeHtml(i.value) + '</span></li>';
+    }).join(''), 'contact-list');
+
+    rightEl.innerHTML = html;
+  }
+
+  function renderAll(data) {
+    renderProjects(data.projects);
+    renderThoughts(data.thoughts);
+    renderAbout(data);
+  }
+
+  function loadContent() {
+    fetch('content/site.json', { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(renderAll)
+      .catch(function (err) {
+        console.warn('未能读取 content/site.json，使用内置默认内容。', err);
+        renderAll(FALLBACK_DATA);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadContent);
+  } else {
+    loadContent();
+  }
+</script>
+
+</body>
+</html>
