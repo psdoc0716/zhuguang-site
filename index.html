@@ -628,7 +628,9 @@
     var el = document.getElementById('thoughtList');
     if (!el) return;
     el.innerHTML = (thoughts || []).map(function (t) {
-      return '<p class="thought-line">' + escapeHtml(t) + '</p>';
+      // 兼容两种数据：后台保存的 { text: '句子' } 和旧版的纯字符串
+      var sentence = (t && typeof t === 'object') ? t.text : t;
+      return '<p class="thought-line">' + escapeHtml(sentence || '') + '</p>';
     }).join('');
   }
 

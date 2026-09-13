@@ -1,52 +1,12 @@
 {
   "items": [
-    {
-      "image": "/images/uploads/封面.jpg",
-      "title": "包装图鉴合辑",
-      "year": "2025",
-      "description": ""
-    },
-    {
-      "image": "/images/uploads/封面_01.jpg",
-      "title": "",
-      "year": "",
-      "description": ""
-    },
-    {
-      "image": "/images/uploads/中式小广告-第二期-封面_画板-1.png",
-      "title": "",
-      "year": "",
-      "description": ""
-    },
-    {
-      "image": "/images/uploads/中式小广告_画板-1-副本-3.jpg",
-      "title": "",
-      "year": "",
-      "description": ""
-    },
-    {
-      "image": "",
-      "title": "",
-      "year": "",
-      "description": ""
-    },
-    {
-      "image": "",
-      "title": "",
-      "year": "",
-      "description": ""
-    },
-    {
-      "image": "",
-      "title": "",
-      "year": "",
-      "description": ""
-    },
-    {
-      "image": "",
-      "title": "",
-      "year": "",
-      "description": ""
-    }
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" },
+    { "image": "", "title": "", "year": "", "description": "" }
   ]
 }

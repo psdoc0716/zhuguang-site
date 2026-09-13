@@ -69,11 +69,14 @@ collections:
         description: "管理文化思想页的文字条目，每条一行，可增删、可拖动排序。完成后点右上角「发布」。"
         format: "json"
         fields:
-          - label: "文化思想（每条一行，可增删、可拖动排序）"
+          - label: "文化思想（点「添加句子」新增；卡片可拖动排序、可删除）"
             name: "items"
-            label_singular: "思想"
+            label_singular: "句子"
             widget: "list"
-            default: []
+            collapsed: false
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "句子内容", name: "text", widget: "string" }
 
   # ========== ④ 经历 / 荣誉 / 联络 ==========
   - name: "about"
