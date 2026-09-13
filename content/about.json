@@ -1,19 +1,24 @@
 {
   "experiences": [
     {
-      "org": "加点滋味",
+      "org": "加点滋味（实习）",
       "period": "2019 — 2020"
     },
     {
       "org": "三分茶",
-      "period": "2021 — 2023"
+      "period": "2023 — 2024"
     },
     {
       "org": "独立设计",
-      "period": "2023 — 至今"
+      "period": "2024 — 至今"
     }
   ],
-  "honors": [],
+  "honors": [
+    {
+      "title": "无",
+      "year": "2001 — 至今"
+    }
+  ],
   "contacts": [
     {
       "label": "邮箱",
